@@ -68,7 +68,7 @@ namespace CopyLocalFixer
                 wasChanged = true;
                 if (isPrivateElement == null)
                 {
-                    isPrivateElement = new XElement("Private", "False");
+                    isPrivateElement = new XElement(doc.Root.GetDefaultNamespace() + "Private", "False");
                     refElement.Add(isPrivateElement);
                 }
                 else
