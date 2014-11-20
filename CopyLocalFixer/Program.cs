@@ -45,6 +45,7 @@ namespace CopyLocalFixer
         private static void Rewrite(string fullCsprojPath, HashSet<string> assemblies)
         {
             bool wasChanged = false;
+            var writeTime = new FileInfo(fullCsprojPath).LastWriteTimeUtc;
             var doc = XDocument.Load(fullCsprojPath);
             var items = from itemGroupElement in doc.Root.Elements()
                 where itemGroupElement.Name.LocalName == "ItemGroup"
@@ -81,6 +82,7 @@ namespace CopyLocalFixer
                 StripReadonlyIfSet(fullCsprojPath);
                 File.Move(fullCsprojPath, fullCsprojPath + ".backup");
                 doc.Save(fullCsprojPath, SaveOptions.None);
+                new FileInfo(fullCsprojPath).LastWriteTimeUtc = writeTime;
             }
         }
 
